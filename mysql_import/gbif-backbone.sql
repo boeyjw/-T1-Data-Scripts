@@ -2,6 +2,8 @@ SET autocommit = 0;
 SET unique_checks = 0;
 SET foreign_key_checks = 0;
 
+SELECT 'SET Initialised' as '';
+
 #Drop any table with same names in foreign key order
 DROP TABLE IF EXISTS `gbif_reference`;
 DROP TABLE IF EXISTS `gbif_multimedia`;
@@ -38,8 +40,12 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/taxon.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
+SELECT concat("Inserted gbif_taxon: ", row_count(), " rows") as '';
+
 ALTER TABLE `gbif_taxon` ADD CONSTRAINT `pk-coreID` PRIMARY KEY (`coreID`);
 COMMIT;
+
+SELECT 'gbif_taxon INDEXED' as '';
 
 #references.txt
 CREATE TABLE `gbif_reference` (
@@ -57,8 +63,12 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/reference.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
+SELECT concat("Inserted gbif_reference: ", row_count(), " rows") as '';
+
 ALTER TABLE `gbif_reference` ADD CONSTRAINT `fk-coreID-reference` FOREIGN KEY (`coreID`) REFERENCES `gbif_taxon`(`coreID`);
 COMMIT;
+
+SELECT 'gbif_reference INDEXED'as '';
 	
 #multimedia.txt
 CREATE TABLE `gbif_multimedia` (
@@ -83,8 +93,12 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/multimedia.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
+SELECT concat("Inserted gbif_multimedia: ", row_count(), " rows") as '';
+
 ALTER TABLE `gbif_multimedia` ADD CONSTRAINT `fk-coreID-multimedia` FOREIGN KEY (`coreID`) REFERENCES `gbif_taxon`(`coreID`);
 COMMIT;
+
+SELECT 'gbif_multimedia INDEXED' as '';
 	
 #vernacularname.txt
 CREATE TABLE `gbif_vernacularname` (
@@ -105,8 +119,12 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/vernacularname.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
+SELECT concat("Inserted gbif_vernacularname: ", row_count(), " rows") as '';
+
 ALTER TABLE `gbif_vernacularname` ADD CONSTRAINT `fk-coreID-vernacularname` FOREIGN KEY (`coreID`) REFERENCES `gbif_taxon`(`coreID`);
 COMMIT;
+
+SELECT 'gbif_vernacularname INDEXED' as '';
 	
 #distribution.txt
 CREATE TABLE `gbif_distribution` (
@@ -130,9 +148,15 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/distribution.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
+SELECT concat("Inserted gbif_distribution: ", row_count(), " rows") as '';
+
 ALTER TABLE `gbif_distribution` ADD CONSTRAINT `fk-coreID-distribution` FOREIGN KEY (`coreID`) REFERENCES `gbif_taxon`(`coreID`);
 COMMIT;
+
+SELECT 'gbif_distribution INDEXED' as '';
 
 SET autocommit = 1;
 SET unique_checks = 1;
 SET foreign_key_checks = 1;
+
+SELECT 'SET reset' as '';

@@ -2,6 +2,8 @@ SET autocommit = 0;
 SET unique_checks = 0;
 SET foreign_key_checks = 0;
 
+SELECT 'SET initialised' as '';
+
 #Drop any table with same names in foreign key order
 DROP TABLE IF EXISTS `ncbi_delnodes`;
 DROP TABLE IF EXISTS `ncbi_merged`;
@@ -16,18 +18,22 @@ CREATE TABLE `ncbi_division` (
 	`division_id` smallint(6) unsigned NOT NULL default '0',
 	`division_cde` char(3) NOT NULL default '',
 	`division_name` varchar(255) NOT NULL default '',
-	`comments` varchar(255) default NULL
+	`comments` text default NULL
 );
 
 LOAD DATA LOCAL INFILE '/var/lib/mysql-files/division.dmp'
 	INTO TABLE `ncbi_division`
 	CHARACTER SET utf8mb4
-	FIELDS TERMINATED BY '\t|\t'
+	FIELDS ESCAPED BY '\\' TERMINATED BY '\t|\t'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
+SELECT concat("Inserted ncbi_division: ", row_count(), " rows") as '';
+
 ALTER TABLE `ncbi_division` ADD CONSTRAINT `pk-division_id` PRIMARY KEY(`division_id`);
 COMMIT;
+
+SELECT "ncbi_division INDEXED" as '';
 	
 #gencode.dmp
 CREATE TABLE `ncbi_gencode` (
@@ -45,8 +51,12 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/gencode.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
+SELECT concat("Inserted ncbi_gencode: ", row_count(), " rows") as '';
+
 ALTER TABLE `ncbi_gencode` ADD CONSTRAINT `pk-genetic_code_id` PRIMARY KEY (`genetic_code_id`);
 COMMIT;
+
+SELECT 'ncbi_gencode INDEXED' as '';
 	
 #delnodes.dmp
 CREATE TABLE `ncbi_delnodes` (
@@ -60,8 +70,12 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/delnodes.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
+SELECT concat("Inserted ncbi_delnodes: ", row_count(), " rows") as '';
+
 ALTER TABLE `ncbi_delnodes` ADD CONSTRAINT `uq-tax_id` UNIQUE (`tax_id`);
 COMMIT;
+
+SELECT 'ncbi_delnodex INDEXED' as '';
 	
 #merged.dmp
 CREATE TABLE `ncbi_merged` (
@@ -76,8 +90,12 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/merged.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
+SELECT concat("Inserted ncbi_merged: ", row_count(), " rows") as '';
+
 ALTER TABLE `ncbi_merged` ADD CONSTRAINT `uq-old_tax_id` UNIQUE (`old_tax_id`);
 COMMIT;
+
+SELECT 'ncbi_merged INDEXED' as '';
 	
 #citations.dmp
 CREATE TABLE `ncbi_citations` (
@@ -86,19 +104,23 @@ CREATE TABLE `ncbi_citations` (
 	`pubmed_id` mediumint(11) unsigned NOT NULL default '0',
 	`medline_id` mediumint(11) unsigned NOT NULL default '0',
 	`url` varchar(255) NOT NULL default '',
-	`text` varchar(255) default NULL,
+	`text` text default NULL,
 	`taxid_list` varchar(255) NOT NULL default '0'
 );
 
 LOAD DATA LOCAL INFILE '/var/lib/mysql-files/citations.dmp'
 	INTO TABLE `ncbi_citations`
 	CHARACTER SET utf8mb4
-	FIELDS TERMINATED BY '\t|\t'
+	FIELDS ESCAPED BY '\\' TERMINATED BY '\t|\t'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
+SELECT concat("Inserted ncbi_citations: ", row_count(), " rows") as '';
+
 ALTER TABLE `ncbi_citations` ADD CONSTRAINT `pk-cit_id` PRIMARY KEY (`cit_id`);
 COMMIT;
+
+SELECT 'ncbi_citations INDEXED' as '';
 
 #nodes.dmp
 CREATE TABLE `ncbi_nodes` (
@@ -114,21 +136,25 @@ CREATE TABLE `ncbi_nodes` (
   `inherited_MGC_flag` tinyint(4) NOT NULL default '0',
   `GenBank_hidden_flag` smallint(4) NOT NULL default '0',
   `hidden_subtree_root_flag` tinyint(4) NOT NULL default '0',
-  `comments` varchar(255) default NULL
+  `comments` text default NULL
 );
 
 LOAD DATA LOCAL INFILE '/var/lib/mysql-files/nodes.dmp'
 	INTO TABLE `ncbi_nodes`
 	CHARACTER SET utf8mb4
-	FIELDS TERMINATED BY '\t|\t'
+	FIELDS ESCAPED BY '\\' TERMINATED BY '\t|\t'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
+
+SELECT concat("Inserted ncbi_nodes: ", row_count(), " rows") as '';
 
 ALTER TABLE `ncbi_nodes`
 	ADD CONSTRAINT `pk-tax_id` PRIMARY KEY (`tax_id`),
 	ADD CONSTRAINT `fk-division_id` FOREIGN KEY (`division_id`) REFERENCES `ncbi_division` (`division_id`),
 	ADD CONSTRAINT `fk-gencode_code_id` FOREIGN KEY (`genetic_code_id`) REFERENCES `ncbi_gencode` (`genetic_code_id`);
 COMMIT;
+
+SELECT 'ncbi_nodes INDEXED' as '';
 
 #names.dmp
 CREATE TABLE `ncbi_names` (
@@ -145,8 +171,14 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/names.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
+SELECT concat("Inserted ncbi_names: ", row_count(), " rows") as '';
+
 ALTER TABLE `ncbi_names` ADD CONSTRAINT `fk-tax_id` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes`(`tax_id`);
+
+SELECT 'ncbi_names INDEXED' as '';
 
 SET autocommit = 1;
 SET unique_checks = 1;
 SET foreign_key_checks = 1;
+
+SELECT 'SET reset' as '';
