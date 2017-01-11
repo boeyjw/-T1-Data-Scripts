@@ -28,7 +28,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/division.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_division: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_division' as '';
 
 ALTER TABLE `ncbi_division` ADD CONSTRAINT `pk-division_id` PRIMARY KEY(`division_id`);
 COMMIT;
@@ -51,7 +51,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/gencode.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_gencode: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_gencode' as '';
 
 ALTER TABLE `ncbi_gencode` ADD CONSTRAINT `pk-genetic_code_id` PRIMARY KEY (`genetic_code_id`);
 COMMIT;
@@ -70,7 +70,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/delnodes.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_delnodes: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_delnodes' as '';
 
 ALTER TABLE `ncbi_delnodes` ADD CONSTRAINT `uq-tax_id` UNIQUE (`tax_id`);
 COMMIT;
@@ -90,7 +90,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/merged.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_merged: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_merged' as '';
 
 ALTER TABLE `ncbi_merged` ADD CONSTRAINT `uq-old_tax_id` UNIQUE (`old_tax_id`);
 COMMIT;
@@ -115,7 +115,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/citations.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_citations: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_citations' as '';
 
 ALTER TABLE `ncbi_citations` ADD CONSTRAINT `pk-cit_id` PRIMARY KEY (`cit_id`);
 COMMIT;
@@ -146,7 +146,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/nodes.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_nodes: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_nodes' as '';
 
 ALTER TABLE `ncbi_nodes`
 	ADD CONSTRAINT `pk-tax_id` PRIMARY KEY (`tax_id`),
@@ -171,11 +171,14 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/names.dmp'
 	LINES TERMINATED BY '\t|\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_names: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_names' as '';
 
 ALTER TABLE `ncbi_names` ADD CONSTRAINT `fk-tax_id` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes`(`tax_id`);
 
 SELECT 'ncbi_names INDEXED' as '';
+
+#Echo whole table
+SELECT table_name, TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = (SELECT DATABASE());
 
 SET autocommit = 1;
 SET unique_checks = 1;

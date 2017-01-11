@@ -2,7 +2,7 @@ SET autocommit = 0;
 SET unique_checks = 0;
 SET foreign_key_checks = 0;
 
-SELECT 'SET initialised' as '';
+SELECT 'SET initialised' AS '';
 
 #Drop any same name tables. No order enforced.
 DROP TABLE IF EXISTS `ncbi_nucl_est`;
@@ -25,7 +25,7 @@ LOAD DATA INFILE '/var/lib/mysql-files/nucl_est.accession2taxid'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_nucl_est: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_nucl_est' AS '';
 
 CREATE TABLE `ncbi_nucl_gss` (
 	accession varchar(8) NOT NULL default '0',
@@ -41,7 +41,7 @@ LOAD DATA INFILE '/var/lib/mysql-files/nucl_gss.accession2taxid'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_nucl_gss: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_nucl_gss' AS '';
 
 CREATE TABLE `ncbi_nucl_wgs` (
 	accession varchar(8) NOT NULL default '0',
@@ -57,7 +57,7 @@ LOAD DATA INFILE '/var/lib/mysql-files/nucl_wgs.accession2taxid'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_nucl_wgs: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_nucl_wgs' AS '';
 
 CREATE TABLE `ncbi_nucl_gb` (
 	accession varchar(8) NOT NULL default '0',
@@ -73,7 +73,7 @@ LOAD DATA INFILE '/var/lib/mysql-files/nucl_gb.accession2taxid'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_nucl_gb: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_nucl_gb: ", row_count(), " rows' AS '';
 
 CREATE TABLE `ncbi_prot` (
 	accession varchar(8) NOT NULL default '0',
@@ -89,10 +89,13 @@ LOAD DATA INFILE '/var/lib/mysql-files/prot.accession2taxid'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted ncbi_prot: ", row_count(), " rows") as '';
+SELECT 'Inserted ncbi_prot' AS '';
+
+#Echo whole table
+SELECT table_name, TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = (SELECT DATABASE());
 
 SET autocommit = 1;
 SET unique_checks = 1;
 SET foreign_key_checks = 1;
 
-SELECT 'SET reset' as '';
+SELECT 'SET reset' AS '';

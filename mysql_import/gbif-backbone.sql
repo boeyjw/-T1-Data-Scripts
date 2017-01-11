@@ -40,7 +40,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/taxon.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted gbif_taxon: ", row_count(), " rows") as '';
+SELECT 'Inserted gbif_taxon' as '';
 
 ALTER TABLE `gbif_taxon` ADD CONSTRAINT `pk-coreID` PRIMARY KEY (`coreID`);
 COMMIT;
@@ -63,7 +63,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/reference.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted gbif_reference: ", row_count(), " rows") as '';
+SELECT 'Inserted gbif_reference' as '';
 
 ALTER TABLE `gbif_reference` ADD CONSTRAINT `fk-coreID-reference` FOREIGN KEY (`coreID`) REFERENCES `gbif_taxon`(`coreID`);
 COMMIT;
@@ -93,7 +93,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/multimedia.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted gbif_multimedia: ", row_count(), " rows") as '';
+SELECT 'Inserted gbif_multimedia:' as '';
 
 ALTER TABLE `gbif_multimedia` ADD CONSTRAINT `fk-coreID-multimedia` FOREIGN KEY (`coreID`) REFERENCES `gbif_taxon`(`coreID`);
 COMMIT;
@@ -119,7 +119,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/vernacularname.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted gbif_vernacularname: ", row_count(), " rows") as '';
+SELECT 'Inserted gbif_vernacularname' as '';
 
 ALTER TABLE `gbif_vernacularname` ADD CONSTRAINT `fk-coreID-vernacularname` FOREIGN KEY (`coreID`) REFERENCES `gbif_taxon`(`coreID`);
 COMMIT;
@@ -148,12 +148,15 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/distribution.txt'
 	LINES TERMINATED BY '\n';
 COMMIT;
 
-SELECT concat("Inserted gbif_distribution: ", row_count(), " rows") as '';
+SELECT 'Inserted gbif_distribution' as '';
 
 ALTER TABLE `gbif_distribution` ADD CONSTRAINT `fk-coreID-distribution` FOREIGN KEY (`coreID`) REFERENCES `gbif_taxon`(`coreID`);
 COMMIT;
 
 SELECT 'gbif_distribution INDEXED' as '';
+
+#Echo whole table
+SELECT table_name, TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = (SELECT DATABASE());
 
 SET autocommit = 1;
 SET unique_checks = 1;
