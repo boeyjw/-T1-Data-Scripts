@@ -1,6 +1,6 @@
 SET autocommit = 0;
 SET unique_checks = 0;
-#SET foreign_key_checks = 0;
+SET foreign_key_checks = 0;
 
 SELECT 'SET initialised' AS '';
 /*
@@ -126,6 +126,6 @@ SELECT table_name, TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA 
 
 SET autocommit = 1;
 SET unique_checks = 1;
-#SET foreign_key_checks = 1;
+SET foreign_key_checks = 1;
 
 SELECT 'SET reset' AS '';
