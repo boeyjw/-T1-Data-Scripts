@@ -13,8 +13,8 @@ DROP TABLE IF EXISTS `gbif_taxon`;
 
 #taxon.txt
 CREATE TABLE `gbif_taxon` (
-	`coreID` int unsigned NOT NULL default '0',
-	`taxonID` int unsigned NOT NULL default '0',
+	`coreID` int unsigned NOT NULL default 0,
+	`taxonID` int unsigned NOT NULL default 0,
 	`datasetID` char(36) NOT NULL default '',
 	`parentNameUsageID` int unsigned default NULL,
 	`acceptedNameUsageID` int unsigned default NULL,
@@ -49,7 +49,7 @@ SELECT 'gbif_taxon INDEXED' as '';
 
 #references.txt
 CREATE TABLE `gbif_reference` (
-	`coreID` int unsigned NOT NULL default '0',
+	`coreID` int unsigned NOT NULL default 0,
 	`bibliographicCitation` varchar(255) NOT NULL default '',
 	`references` varchar(255) default NULL,
 	`source` varchar(255) default NULL,
@@ -72,7 +72,7 @@ SELECT 'gbif_reference INDEXED'as '';
 	
 #multimedia.txt
 CREATE TABLE `gbif_multimedia` (
-	`coreID` int unsigned NOT NULL default '0',
+	`coreID` int unsigned NOT NULL default 0,
 	`references` varchar(255) NOT NULL default '',
 	`description` varchar(255) default NULL,
 	`title` varchar(255) default NULL,
@@ -102,7 +102,7 @@ SELECT 'gbif_multimedia INDEXED' as '';
 	
 #vernacularname.txt
 CREATE TABLE `gbif_vernacularname` (
-	`coreID` int unsigned NOT NULL default '0',
+	`coreID` int unsigned NOT NULL default 0,
 	`vernacularName` varchar(255) NOT NULL default '',
 	`source` varchar(255) default NULL,
 	`sex` varchar(255) default NULL,
@@ -128,7 +128,7 @@ SELECT 'gbif_vernacularname INDEXED' as '';
 	
 #distribution.txt
 CREATE TABLE `gbif_distribution` (
-	`coreID` int unsigned NOT NULL default '0',
+	`coreID` int unsigned NOT NULL default 0,
 	`source` varchar(255) NOT NULL default '',
 	`threatStatus` varchar(255) default NULL,
 	`locality` varchar(255) default NULL,

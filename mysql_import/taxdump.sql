@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS `ncbi_gencode`;
 
 #division.dmp
 CREATE TABLE `ncbi_division` (
-	`division_id` smallint(6) unsigned NOT NULL default '0',
+	`division_id` smallint(6) unsigned NOT NULL default 0,
 	`division_cde` char(3) NOT NULL default '',
 	`division_name` varchar(255) NOT NULL default '',
 	`comments` text default NULL
@@ -37,7 +37,7 @@ SELECT "ncbi_division INDEXED" as '';
 	
 #gencode.dmp
 CREATE TABLE `ncbi_gencode` (
-	`genetic_code_id` smallint(6) unsigned NOT NULL default '0',
+	`genetic_code_id` smallint(6) unsigned NOT NULL default 0,
 	`abbreviation` varchar(255) default NULL,
 	`name` varchar(255) NOT NULL default '',
 	`cde` varchar(255) NOT NULL default '',
@@ -60,7 +60,7 @@ SELECT 'ncbi_gencode INDEXED' as '';
 	
 #delnodes.dmp
 CREATE TABLE `ncbi_delnodes` (
-	`tax_id` mediumint(11) unsigned NOT NULL default '0'
+	`tax_id` mediumint(11) unsigned NOT NULL default 0
 );
 
 LOAD DATA LOCAL INFILE '/var/lib/mysql-files/delnodes.dmp'
@@ -79,8 +79,8 @@ SELECT 'ncbi_delnodex INDEXED' as '';
 	
 #merged.dmp
 CREATE TABLE `ncbi_merged` (
-	`old_tax_id` mediumint(11) unsigned NOT NULL default '0',
-	`new_tax_id` mediumint(11) unsigned NOT NULL default '0'
+	`old_tax_id` mediumint(11) unsigned NOT NULL default 0,
+	`new_tax_id` mediumint(11) unsigned NOT NULL default 0
 );
 
 LOAD DATA LOCAL INFILE '/var/lib/mysql-files/merged.dmp'
@@ -99,10 +99,10 @@ SELECT 'ncbi_merged INDEXED' as '';
 	
 #citations.dmp
 CREATE TABLE `ncbi_citations` (
-	`cit_id` mediumint(11) unsigned NOT NULL default '0',
+	`cit_id` mediumint(11) unsigned NOT NULL default 0,
 	`cit_key` varchar(255) NOT NULL default '',
-	`pubmed_id` mediumint(11) unsigned NOT NULL default '0',
-	`medline_id` mediumint(11) unsigned NOT NULL default '0',
+	`pubmed_id` mediumint(11) unsigned NOT NULL default 0,
+	`medline_id` mediumint(11) unsigned NOT NULL default 0,
 	`url` varchar(255) NOT NULL default '',
 	`text` text default NULL,
 	`taxid_list` varchar(255) NOT NULL default '0'
@@ -124,18 +124,18 @@ SELECT 'ncbi_citations INDEXED' as '';
 
 #nodes.dmp
 CREATE TABLE `ncbi_nodes` (
-  `tax_id` mediumint(11) unsigned NOT NULL default '0',
-  `parent_tax_id` mediumint(8) unsigned NOT NULL default '0',
+  `tax_id` mediumint(11) unsigned NOT NULL default 0,
+  `parent_tax_id` mediumint(8) unsigned NOT NULL default 0,
   `rank` varchar(32) default NULL,
   `embl_code` varchar(16) default NULL,
-  `division_id` smallint(6) unsigned NOT NULL default '0',
-  `inherited_div_flag` tinyint(4) NOT NULL default '0',
-  `genetic_code_id` smallint(6) unsigned NOT NULL default '0',
-  `inherited_GC_flag` tinyint(4) NOT NULL default '0',
-  `mitochondrial_genetic_code_id` smallint(4) NOT NULL default '0',
-  `inherited_MGC_flag` tinyint(4) NOT NULL default '0',
-  `GenBank_hidden_flag` smallint(4) NOT NULL default '0',
-  `hidden_subtree_root_flag` tinyint(4) NOT NULL default '0',
+  `division_id` smallint(6) unsigned NOT NULL default 0,
+  `inherited_div_flag` tinyint(4) NOT NULL default 0,
+  `genetic_code_id` smallint(6) unsigned NOT NULL default 0,
+  `inherited_GC_flag` tinyint(4) NOT NULL default 0,
+  `mitochondrial_genetic_code_id` smallint(4) NOT NULL default 0,
+  `inherited_MGC_flag` tinyint(4) NOT NULL default 0,
+  `GenBank_hidden_flag` smallint(4) NOT NULL default 0,
+  `hidden_subtree_root_flag` tinyint(4) NOT NULL default 0,
   `comments` text default NULL
 );
 
@@ -158,7 +158,7 @@ SELECT 'ncbi_nodes INDEXED' as '';
 
 #names.dmp
 CREATE TABLE `ncbi_names` (
-  `tax_id` mediumint(11) unsigned NOT NULL default '0',
+  `tax_id` mediumint(11) unsigned NOT NULL default 0,
   `name_txt` varchar(255) NOT NULL default '',
   `unique_name` varchar(255) default NULL,
   `name_class` varchar(32) NOT NULL default ''
