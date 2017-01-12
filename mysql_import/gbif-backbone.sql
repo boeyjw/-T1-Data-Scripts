@@ -1,6 +1,6 @@
 SET autocommit = 0;
 SET unique_checks = 0;
-SET foreign_key_checks = 0;
+#SET foreign_key_checks = 0;
 
 SELECT 'SET Initialised' as '';
 
@@ -18,8 +18,8 @@ CREATE TABLE `gbif_taxon` (
 	`datasetID` char(36) NOT NULL default '',
 	`parentNameUsageID` int unsigned default NULL,
 	`acceptedNameUsageID` int unsigned default NULL,
-	`scientificName` varchar(255) NOT NULL default '',
-	`taxonRank` varchar(255) NOT NULL default '',
+	`scientificName` varchar(255) default NULL,
+	`taxonRank` varchar(255) default NULL,
 	`nameAccordingTo` varchar(255) default NULL,
 	`namePublishedIn` varchar(255) default NULL,
 	`taxonomicStatus` varchar(255) default NULL,
@@ -37,7 +37,24 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/taxon.txt'
 	INTO TABLE `gbif_taxon`
 	CHARACTER SET utf8mb4
 	FIELDS TERMINATED BY '\t'
-	LINES TERMINATED BY '\n';
+	LINES TERMINATED BY '\n'
+	(`coreID`, `taxonID`, `datasetID`, @pnuid, @anuid, @sn, @tr, @nat, @npi, @ts, @ns, @kd, @pl, @cl, @orde, @fam, @gen, @tr)
+	SET
+	`parentNameUsageID` = nullif(@pnuid, ''),
+	`acceptedNameUsageID` = nullif(@anuid, ''),
+	`scientificName` = nullif(@sn, ''),
+	`taxonRank` = nullif(@tr, ''),
+	`nameAccordingTo` = nullif(@nat, ''),
+	`namePublishedIn` = nullif(@npi, ''),
+	`taxonomicStatus` = nullif(@ts, ''),
+	`nomenclaturalStatus` = nullif(@ns, ''),
+	`kingdom` = nullif(@kd, ''),
+	`phylum` = nullif(@pl, ''),
+	`class` = nullif(@cl, ''),
+	`order` = nullif(@orde, ''),
+	`family` = nullif(@fam, ''),
+	`genus` = nullif(@gen, ''),
+	`taxonRemarks` = nullif(@tr, '');
 COMMIT;
 
 SELECT 'Inserted gbif_taxon' as '';
@@ -60,7 +77,12 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/reference.txt'
 	INTO TABLE `gbif_reference`
 	CHARACTER SET utf8mb4
 	FIELDS TERMINATED BY '\t'
-	LINES TERMINATED BY '\n';
+	LINES TERMINATED BY '\n'
+	(`coreID`, `bibliographicCitation`, @refe, @src, @id)
+	SET
+	`references` = nullif(@refe, ''),
+	`source` = nullif(@src, ''),
+	`identifier` = nullif(@id, '');
 COMMIT;
 
 SELECT 'Inserted gbif_reference' as '';
@@ -90,7 +112,19 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/multimedia.txt'
 	INTO TABLE `gbif_multimedia`
 	CHARACTER SET utf8mb4
 	FIELDS TERMINATED BY '\t'
-	LINES TERMINATED BY '\n';
+	LINES TERMINATED BY '\n'
+	(`coreID`, `references`, @descr, @tt, @cont, @src, @crtd, @lc, @id, @crtr, @pub, @rh)
+	SET
+	`description` = nullif(@descr, ''),
+	`title` = nullif(@tt, ''),
+	`contributor` = nullif(@cont, ''),
+	`source` = nullif(@src, ''),
+	`created` = nullif(@crtd, ''),
+	`license` = nullif(@lc, ''),
+	`identifier` = nullif(@id, ''),
+	`creator` = nullif(@crtr, ''),
+	`publisher` = nullif(@pub, ''),
+	`rightsHolder` = nullif(@rh, '');
 COMMIT;
 
 SELECT 'Inserted gbif_multimedia:' as '';
@@ -116,7 +150,15 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/vernacularname.txt'
 	INTO TABLE `gbif_vernacularname`
 	CHARACTER SET utf8mb4
 	FIELDS TERMINATED BY '\t'
-	LINES TERMINATED BY '\n';
+	LINES TERMINATED BY '\n'
+	(`coreID`, `vernacularName`, @src, @sx, @ls, @lang, @cc, @ct)
+	SET
+	`source` = nullif(@src, ''),
+	`sex` = nullif(@sx, ''),
+	`lifeStage` = nullif(@ls, ''),
+	`language` = nullif(@lang, ''),
+	`countryCode` = nullif(@cc, ''),
+	`country` = nullif(@ct, '');
 COMMIT;
 
 SELECT 'Inserted gbif_vernacularname' as '';
@@ -145,7 +187,18 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/distribution.txt'
 	INTO TABLE `gbif_distribution`
 	CHARACTER SET utf8mb4
 	FIELDS TERMINATED BY '\t'
-	LINES TERMINATED BY '\n';
+	LINES TERMINATED BY '\n'
+	(`coreID`, `source`, @ts, @lc, @ls, @os, @lid, @lr, @em, @cc, @ct)
+	SET
+	`threatStatus` = nullif(@ts, ''),
+	`locality` = nullif(@lc, ''),
+	`lifeStage` = nullif(@ls, ''),
+	`occuranceStatus` = nullif(@os, ''),
+	`locationID` = nullif(@lid, ''),
+	`locationRemarks` = nullif(@lr, ''),
+	`establishmentMeans` = nullif(@em, ''),
+	`countryCode` = nullif(@cc, ''),
+	`country` = nullif(@ct, '');
 COMMIT;
 
 SELECT 'Inserted gbif_distribution' as '';
@@ -160,6 +213,6 @@ SELECT table_name, TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA 
 
 SET autocommit = 1;
 SET unique_checks = 1;
-SET foreign_key_checks = 1;
+#SET foreign_key_checks = 1;
 
 SELECT 'SET reset' as '';

@@ -1,6 +1,6 @@
 SET autocommit = 0;
 SET unique_checks = 0;
-SET foreign_key_checks = 0;
+#SET foreign_key_checks = 0;
 
 SELECT 'SET initialised' as '';
 
@@ -25,7 +25,9 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/division.dmp'
 	INTO TABLE `ncbi_division`
 	CHARACTER SET utf8mb4
 	FIELDS ESCAPED BY '\\' TERMINATED BY '\t|\t'
-	LINES TERMINATED BY '\t|\n';
+	LINES TERMINATED BY '\t|\n'
+	(`division_id`, `division_cde`, `division_name`, @vcomments)
+	SET `comments` = nullif(@vcomments, '');
 COMMIT;
 
 SELECT 'Inserted ncbi_division' as '';
@@ -48,7 +50,9 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/gencode.dmp'
 	INTO TABLE `ncbi_gencode`
 	CHARACTER SET utf8mb4
 	FIELDS TERMINATED BY '\t|\t'
-	LINES TERMINATED BY '\t|\n';
+	LINES TERMINATED BY '\t|\n'
+	(`genetic_code_id`, @vabb, `name`, `cde`, `starts`)
+	SET `abbreviation` = nullif(@vabb, '');
 COMMIT;
 
 SELECT 'Inserted ncbi_gencode' as '';
@@ -103,7 +107,7 @@ CREATE TABLE `ncbi_citations` (
 	`cit_key` varchar(255) NOT NULL default '',
 	`pubmed_id` mediumint(11) unsigned NOT NULL default 0,
 	`medline_id` mediumint(11) unsigned NOT NULL default 0,
-	`url` varchar(255) NOT NULL default '',
+	`url` varchar(255) default NULL,
 	`text` text default NULL,
 	`taxid_list` varchar(255) NOT NULL default '0'
 );
@@ -112,7 +116,11 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/citations.dmp'
 	INTO TABLE `ncbi_citations`
 	CHARACTER SET utf8mb4
 	FIELDS ESCAPED BY '\\' TERMINATED BY '\t|\t'
-	LINES TERMINATED BY '\t|\n';
+	LINES TERMINATED BY '\t|\n'
+	(`cit_id`, `cit_key`, `pubmed_id`, `medline_id`, @vurl, @vtxt, `taxid_list`)
+	SET 
+	`url` = nullif(@vurl, ''),
+	`text` = nullif(@vtxt, '');
 COMMIT;
 
 SELECT 'Inserted ncbi_citations' as '';
@@ -129,13 +137,13 @@ CREATE TABLE `ncbi_nodes` (
   `rank` varchar(32) default NULL,
   `embl_code` varchar(16) default NULL,
   `division_id` smallint(6) unsigned NOT NULL default 0,
-  `inherited_div_flag` tinyint(4) NOT NULL default 0,
+  `inherited_div_flag` tinyint(4) default NULL,
   `genetic_code_id` smallint(6) unsigned NOT NULL default 0,
-  `inherited_GC_flag` tinyint(4) NOT NULL default 0,
-  `mitochondrial_genetic_code_id` smallint(4) NOT NULL default 0,
-  `inherited_MGC_flag` tinyint(4) NOT NULL default 0,
-  `GenBank_hidden_flag` smallint(4) NOT NULL default 0,
-  `hidden_subtree_root_flag` tinyint(4) NOT NULL default 0,
+  `inherited_GC_flag` tinyint(4) default NULL,
+  `mitochondrial_genetic_code_id` smallint(4) default NULL,
+  `inherited_MGC_flag` tinyint(4) default NULL,
+  `GenBank_hidden_flag` smallint(4) default NULL,
+  `hidden_subtree_root_flag` tinyint(4) default NULL,
   `comments` text default NULL
 );
 
@@ -143,7 +151,18 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/nodes.dmp'
 	INTO TABLE `ncbi_nodes`
 	CHARACTER SET utf8mb4
 	FIELDS ESCAPED BY '\\' TERMINATED BY '\t|\t'
-	LINES TERMINATED BY '\t|\n';
+	LINES TERMINATED BY '\t|\n'
+	(`tax_id`, `parent_tax_id`, @vrank, @vembl_code, `division_id`, @vinherited_div_flag, `genetic_code_id`, @vinherited_GC_flag, @vmitochondrial_genetic_code_id, @vinherited_MGC_flag, @vGenBank_hidden_flag, @vhidden_subtree_root_flag, @vcomments)
+	SET 
+	`rank` = nullif(@vrank, ''),
+	`embl_code` = nullif(@vembl_code, ''),
+	`inherited_div_flag` = nullif(@vinherited_div_flag, ''),
+	`inherited_GC_flag` = nullif(@vinherited_GC_flag, ''),
+	`mitochondrial_genetic_code_id` = nullif(@vmitochondrial_genetic_code_id, ''),
+	`inherited_MGC_flag` = nullif(@vinherited_MGC_flag, ''),
+	`GenBank_hidden_flag` = nullif(@vGenBank_hidden_flag, ''),
+	`hidden_subtree_root_flag` = nullif(@vhidden_subtree_root_flag, ''),
+	`comments` = nullif(@vcomments, '');
 COMMIT;
 
 SELECT 'Inserted ncbi_nodes' as '';
@@ -159,16 +178,21 @@ SELECT 'ncbi_nodes INDEXED' as '';
 #names.dmp
 CREATE TABLE `ncbi_names` (
   `tax_id` mediumint(11) unsigned NOT NULL default 0,
-  `name_txt` varchar(255) NOT NULL default '',
+  `name_txt` varchar(255) default NULL,
   `unique_name` varchar(255) default NULL,
-  `name_class` varchar(32) NOT NULL default ''
+  `name_class` varchar(32) default NULL
 );
 
 LOAD DATA LOCAL INFILE '/var/lib/mysql-files/names.dmp'
 	INTO TABLE `ncbi_names`
 	CHARACTER SET utf8mb4
 	FIELDS TERMINATED BY '\t|\t'
-	LINES TERMINATED BY '\t|\n';
+	LINES TERMINATED BY '\t|\n'
+	(`tax_id`, @vname_txt, @vunique_name, @name_class)
+	SET 
+	`name_txt` = nullif(@vname_txt, ''),
+	`unique_name` = nullif(@vunique_name, ''),
+	`name_class` = nullif(@vname_class, '');
 COMMIT;
 
 SELECT 'Inserted ncbi_names' as '';
@@ -182,6 +206,6 @@ SELECT table_name, TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA 
 
 SET autocommit = 1;
 SET unique_checks = 1;
-SET foreign_key_checks = 1;
+#SET foreign_key_checks = 1;
 
 SELECT 'SET reset' as '';
