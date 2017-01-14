@@ -3,7 +3,7 @@ SET unique_checks = 0;
 SET foreign_key_checks = 0;
 
 SELECT 'SET initialised' AS '';
-/*
+
 #Drop any same name tables. No order enforced.
 DROP TABLE IF EXISTS `ncbi_nucl_est`;
 DROP TABLE IF EXISTS `ncbi_nucl_gss`;
@@ -26,7 +26,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/nucl_est.accession2taxid'
 	IGNORE 1 LINES;
 COMMIT;
 
-SELECT 'Inserted ncbi_nucl_est' AS '';*/ #Imported - Boey
+SELECT 'Inserted ncbi_nucl_est' AS '';
 
 /*ALTER TABLE `ncbi_nucl_est` ADD CONSTRAINT `fk-tax_id-nucl_est` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
 COMMIT;
@@ -92,7 +92,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/nucl_gb.accession2taxid'
 	IGNORE 1 LINES;
 COMMIT;
 
-SELECT 'Inserted ncbi_nucl_gb: ", row_count(), " rows' AS '';
+SELECT 'Inserted ncbi_nucl_gb' AS '';
 
 /*ALTER TABLE `ncbi_nucl_gb` ADD CONSTRAINT `fk-tax_id-nucl_gb` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
 COMMIT;

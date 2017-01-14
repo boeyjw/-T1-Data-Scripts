@@ -109,7 +109,7 @@ CREATE TABLE `ncbi_citations` (
 	`medline_id` mediumint(11) unsigned NOT NULL default 0,
 	`url` varchar(255) default NULL,
 	`text` text default NULL,
-	`taxid_list` varchar(255) NOT NULL default '0'
+	`taxid_list` text default NULL
 );
 
 LOAD DATA LOCAL INFILE '/var/lib/mysql-files/citations.dmp'
@@ -117,10 +117,11 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/citations.dmp'
 	CHARACTER SET utf8mb4
 	FIELDS ESCAPED BY '\\' TERMINATED BY '\t|\t'
 	LINES TERMINATED BY '\t|\n'
-	(`cit_id`, `cit_key`, `pubmed_id`, `medline_id`, @vurl, @vtxt, `taxid_list`)
+	(`cit_id`, `cit_key`, `pubmed_id`, `medline_id`, @vurl, @vtxt, @vtaxid_list)
 	SET 
 	`url` = nullif(@vurl, ''),
-	`text` = nullif(@vtxt, '');
+	`text` = nullif(@vtxt, ''),
+	`taxid_list` = nullif(@vtaxid_list, '');
 COMMIT;
 
 SELECT 'Inserted ncbi_citations' as '';
