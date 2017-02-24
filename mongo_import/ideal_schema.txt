@@ -1,0 +1,121 @@
+ideal schema (MongoDB)
+
+_id: ObjectId()
+scientificName:	[ String ]
+coreID: Integer
+taxID: Integer
+parentTaxID: Integer
+datasetID: String
+taxonRank: String
+nameAccordingTo: String
+namePublishedIn: String
+taxonomicStatus: String
+nomenclatureStatus: String
+taxonRemarks: String
+rank: String
+multimedia: [
+				{
+					references: String
+					description: String
+					title: String
+					contributor: String
+					source: String
+					created: String
+					license: String
+					identifier: String
+					creator: String
+					publisher: String
+					rightsHolder: String
+				}
+				{
+					...
+					...
+					...
+				}
+			]
+vernacularName:	[
+					{
+						name: String
+						source: String
+						sex: String
+						lifeStage: String
+						countryCode: String
+						country: String
+					}
+					{
+						...
+						...
+						...
+					}
+				]
+distribution:	[
+					{
+						source: String
+						threatStatus: String
+						locality: String
+						lifeStage: String
+						occuranceStatus: String
+						locationID: String
+						locationRemarks: String
+						establishmentMeans: String
+						countryCode: String
+						country: String
+					}
+					{
+						...
+						...
+						...
+					}
+				]
+reference:	[
+				{
+					bibliographicCitation: String
+					references: String
+					source: String
+					identifier: String
+				}
+				{
+					...
+					...
+					...
+				}
+			]
+division:	{
+				id: Integer
+				cde: String
+				name: String
+				comments: String
+			}
+gencode:	{
+				id: Integer
+				abbreviation: String
+				name: String
+				cde: String
+				starts: String
+			}
+accessionID <unconfirmed>:	{
+					est:	{
+								accession: String
+								version: String
+								gi: String
+							}
+					gss:	{
+								accession: String
+								version: String
+								gi: String
+							}
+					wgs:	{
+								accession: String
+								version: String
+								gi: String
+							}
+					gb:		{
+								accession: String
+								version: String
+								gi: String
+							}
+					prot:	{
+								accession: String
+								version: String
+								gi: String
+							}

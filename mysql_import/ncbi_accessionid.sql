@@ -28,10 +28,10 @@ COMMIT;
 
 SELECT 'Inserted ncbi_nucl_est' AS '';
 
-/*ALTER TABLE `ncbi_nucl_est` ADD CONSTRAINT `fk-tax_id-nucl_est` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
+ALTER TABLE `ncbi_nucl_est` ADD CONSTRAINT `fk-tax_id-nucl_est` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
 COMMIT;
 
-SELECT 'ncbi_nucl_est INDEXED' AS '';*/
+SELECT 'ncbi_nucl_est INDEXED' AS '';
 
 CREATE TABLE `ncbi_nucl_gss` (
 	`accession` varchar(8) NOT NULL default '0',
@@ -50,10 +50,10 @@ COMMIT;
 
 SELECT 'Inserted ncbi_nucl_gss' AS '';
 
-/*ALTER TABLE `ncbi_nucl_gss` ADD CONSTRAINT `fk-tax_id-nucl_gss` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
+ALTER TABLE `ncbi_nucl_gss` ADD CONSTRAINT `fk-tax_id-nucl_gss` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
 COMMIT;
 
-SELECT 'ncbi_nucl_gss INDEXED' AS '';*/
+SELECT 'ncbi_nucl_gss INDEXED' AS '';
 
 CREATE TABLE `ncbi_nucl_wgs` (
 	`accession` varchar(8) NOT NULL default '0',
@@ -72,10 +72,10 @@ COMMIT;
 
 SELECT 'Inserted ncbi_nucl_wgs' AS '';
 
-/*ALTER TABLE `ncbi_nucl_wgs` ADD CONSTRAINT `fk-tax_id-nucl_wgs` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
+ALTER TABLE `ncbi_nucl_wgs` ADD CONSTRAINT `fk-tax_id-nucl_wgs` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
 COMMIT;
 
-SELECT 'ncbi_nucl_wgs INDEXED' AS '';*/
+SELECT 'ncbi_nucl_wgs INDEXED' AS '';
 
 CREATE TABLE `ncbi_nucl_gb` (
 	`accession` varchar(8) NOT NULL default '0',
@@ -94,10 +94,10 @@ COMMIT;
 
 SELECT 'Inserted ncbi_nucl_gb' AS '';
 
-/*ALTER TABLE `ncbi_nucl_gb` ADD CONSTRAINT `fk-tax_id-nucl_gb` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
+ALTER TABLE `ncbi_nucl_gb` ADD CONSTRAINT `fk-tax_id-nucl_gb` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
 COMMIT;
 
-SELECT 'ncbi_nucl_gb INDEXED' AS '';*/
+SELECT 'ncbi_nucl_gb INDEXED' AS '';
 
 CREATE TABLE `ncbi_prot` (
 	`accession` varchar(8) NOT NULL default '0',
@@ -116,10 +116,10 @@ COMMIT;
 
 SELECT 'Inserted ncbi_prot' AS '';
 
-/*ALTER TABLE `ncbi_prot` ADD CONSTRAINT `fk-tax_id-prot` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
+ALTER TABLE `ncbi_prot` ADD CONSTRAINT `fk-tax_id-prot` FOREIGN KEY (`tax_id`) REFERENCES `ncbi_nodes` (`tax_id`);
 COMMIT;
 
-SELECT 'ncbi_prot INDEXED' AS '';*/
+SELECT 'ncbi_prot INDEXED' AS '';
 
 #Echo whole table
 SELECT table_name, TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = (SELECT DATABASE());
