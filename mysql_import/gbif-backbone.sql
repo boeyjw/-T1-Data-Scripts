@@ -75,7 +75,7 @@ SELECT 'Inserted gbif_taxon' as '';
 CREATE TABLE `gbif_reference` (
 	`taxonID` int unsigned NOT NULL default 0,
 	`bibliographicCitation` text default NULL,
-	`references` varchar(255) default NULL,
+	`reference` varchar(255) default NULL,
 	`source` varchar(255) default NULL,
 	`identifier` varchar(255) default NULL
 );
@@ -88,7 +88,7 @@ LOAD DATA LOCAL INFILE 'D:/Download Placement/backbone-current/reference.txt'
 	(`taxonID`, @bc, @refe, @src, @id)
 	SET
 	`bibliographicCitation` = nullif(@bc, ''),
-	`references` = nullif(@refe, ''),
+	`reference` = nullif(@refe, ''),
 	`source` = nullif(@src, ''),
 	`identifier` = nullif(@id, '');
 COMMIT;
