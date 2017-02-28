@@ -189,7 +189,7 @@ LOAD DATA LOCAL INFILE '/var/lib/mysql-files/names.dmp'
 	CHARACTER SET utf8mb4
 	FIELDS TERMINATED BY '\t|\t'
 	LINES TERMINATED BY '\t|\n'
-	(`tax_id`, @vname_txt, @vunique_name, @name_class)
+	(`tax_id`, @vname_txt, @vunique_name, @vname_class)
 	SET 
 	`name_txt` = nullif(@vname_txt, ''),
 	`unique_name` = nullif(@vunique_name, ''),
