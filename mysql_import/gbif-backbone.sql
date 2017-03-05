@@ -18,9 +18,9 @@ CREATE TABLE `gbif_taxon` (
 	`parentNameUsageID` int unsigned default NULL,
 	`acceptedNameUsageID` int unsigned default NULL,
 	`originalNameUsageID` int unsigned default NULL,
-	`scientificName` text default NULL,
+	`scientificName` text default NOT NULL,
 	`scientificNameAuthorship` varchar(255) default NULL,
-	`canonicalName` varchar(255) default NULL,
+	`canonicalName` varchar(255) default NOT NULL,
 	`genericName` varchar(255) default NULL,
 	`specificEpithet` varchar(255) default NULL,
 	`infraspecificEpithet` varchar(255) default NULL,
@@ -43,7 +43,7 @@ LOAD DATA LOCAL INFILE 'D:/Download Placement/backbone-current/taxon.txt'
 	CHARACTER SET utf8mb4
 	FIELDS TERMINATED BY '\t'
 	LINES TERMINATED BY '\n'
-	(`taxonID`, @dtid, @pnuid, @anuid, @onuid, @sn, @sna, @cn, @gn, @se, @ie, @tr, @nat, @npi, @ts, @ns, @kd, @pl, @cl, @orde, @fam, @gen, @tr)
+	(`taxonID`, @dtid, @pnuid, @anuid, @onuid, @sn, @sna, @cn, @gn, @se, @ie, @tr, @nat, @npi, @ts, @ns, @kd, @pl, @cl, @orde, @fam, @gen, @tre)
 	SET
 	`datasetID` = nullif(@dtid, ''),
 	`parentNameUsageID` = nullif(@pnuid, ''),
@@ -66,7 +66,7 @@ LOAD DATA LOCAL INFILE 'D:/Download Placement/backbone-current/taxon.txt'
 	`order` = nullif(@orde, ''),
 	`family` = nullif(@fam, ''),
 	`genus` = nullif(@gen, ''),
-	`taxonRemarks` = nullif(@tr, '');
+	`taxonRemarks` = nullif(@tre, '');
 COMMIT;
 
 SELECT 'Inserted gbif_taxon' as '';
@@ -139,7 +139,7 @@ CREATE TABLE `gbif_vernacularname` (
 	`sex` varchar(255) default NULL,
 	`lifeStage` varchar(255) default NULL,
 	`source` varchar(255) default NULL,
-	`vernacularName` text default NULL,
+	`vernacularName` text default NOT NULL,
 	`language` varchar(255) default NULL,
 	`country` varchar(255) default NULL,
 	`countryCode` varchar(255) default NULL

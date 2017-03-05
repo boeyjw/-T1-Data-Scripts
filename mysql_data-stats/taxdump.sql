@@ -61,7 +61,46 @@ ALTER TABLE `ncbi_gencode` ADD CONSTRAINT `pk-genetic_code_id` PRIMARY KEY (`gen
 COMMIT;
 
 SELECT 'ncbi_gencode INDEXED' as '';
+	
+#delnodes.dmp
+CREATE TABLE `ncbi_delnodes` (
+	`tax_id` mediumint(11) unsigned NOT NULL default 0
+);
 
+LOAD DATA LOCAL INFILE '/var/lib/mysql-files/delnodes.dmp'
+	INTO TABLE `ncbi_delnodes`
+	CHARACTER SET utf8mb4
+	FIELDS TERMINATED BY '\t|\t'
+	LINES TERMINATED BY '\t|\n';
+COMMIT;
+
+SELECT 'Inserted ncbi_delnodes' as '';
+
+ALTER TABLE `ncbi_delnodes` ADD CONSTRAINT `uq-tax_id` UNIQUE (`tax_id`);
+COMMIT;
+
+SELECT 'ncbi_delnodex INDEXED' as '';
+	
+#merged.dmp
+CREATE TABLE `ncbi_merged` (
+	`old_tax_id` mediumint(11) unsigned NOT NULL default 0,
+	`new_tax_id` mediumint(11) unsigned NOT NULL default 0
+);
+
+LOAD DATA LOCAL INFILE '/var/lib/mysql-files/merged.dmp'
+	INTO TABLE `ncbi_merged`
+	CHARACTER SET utf8mb4
+	FIELDS TERMINATED BY '\t|\t'
+	LINES TERMINATED BY '\t|\n';
+COMMIT;
+
+SELECT 'Inserted ncbi_merged' as '';
+
+ALTER TABLE `ncbi_merged` ADD CONSTRAINT `uq-old_tax_id` UNIQUE (`old_tax_id`);
+COMMIT;
+
+SELECT 'ncbi_merged INDEXED' as '';
+	
 #citations.dmp
 CREATE TABLE `ncbi_citations` (
 	`cit_id` mediumint(11) unsigned NOT NULL default 0,
@@ -140,7 +179,7 @@ SELECT 'ncbi_nodes INDEXED' as '';
 #names.dmp
 CREATE TABLE `ncbi_names` (
   `tax_id` mediumint(11) unsigned NOT NULL default 0,
-  `name_txt` varchar(255) default NOT NULL,
+  `name_txt` varchar(255) default NULL,
   `unique_name` varchar(255) default NULL,
   `name_class` varchar(32) default NULL
 );
